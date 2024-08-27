@@ -1,18 +1,46 @@
+const textAreaInput = document.getElementById('inputText');
+const textAreaOutput = document.getElementById('outputText');
+const outputText = document.getElementById('outputText');
 
-function encryptText() {
-    const inputText = document.getElementById('inputText').value;
-    const encryptedText = inputText.split('').map(char => String.fromCharCode(char.charCodeAt(0) + 3)).join('');
-    document.getElementById('outputText').value = encryptedText;
+const matrizCodificacion = [
+    ["a","ai"],["e","enter"],["i","imes"],["o","ober"],["u","ufat"]
+];
+
+function encryptText(text) {
+    text = text.toLowerCase();
+    for(let i = 0; i<matrizCodificacion.length; i++){
+        if(text.includes(matrizCodificacion[i][0])){
+            text = text.replaceAll(matrizCodificacion[i][0], matrizCodificacion[i][1]);
+        }
+    }
+    return text;
+}
+
+function handleBtnEncriptar (){
+    textoEncriptado = encryptText(textAreaInput.value);
+    textAreaOutput.value = textoEncriptado;
+    textAreaInput.value = "";
 }
 
 
-function decryptText() {
-    const encryptedText = document.getElementById('inputText').value;
-    const decryptedText = encryptedText.split('').map(char => String.fromCharCode(char.charCodeAt(0) - 3)).join('');
-    document.getElementById('outputText').value = decryptedText;
+function decryptText(text) {
+    text = text.toLowerCase();
+    for(let i = 0; i<matrizCodificacion.length; i++){
+        if(text.includes(matrizCodificacion[i][1])){
+            text = text.replaceAll(matrizCodificacion[i][1], matrizCodificacion[i][0]);
+        }
+    }
+    return text;
 }
+
+function handleBtnDesencriptar (){
+    textoEncriptado = decryptText(textAreaInput.value);
+    textAreaOutput.value = textoEncriptado;
+    textAreaInput.value = "";
+}
+
 function copyToClipboard() {
-    const outputText = document.getElementById('outputText');
     outputText.select();
     document.execCommand('copy');
+    textAreaOutput.value = "";
 }
